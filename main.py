@@ -3,6 +3,7 @@ import sys
 import pygame as pg
 
 pg.init()
+pg.display.set_caption('Key Finder')
 tile_width = tile_height = 40
 clock = pg.time.Clock()
 FPS = 30
@@ -325,6 +326,9 @@ def start_process():
 
     menu_running = True
     global music_volume
+    global all_sprites
+
+    all_sprites = pg.sprite.Group()
 
     while menu_running:
         for event in pg.event.get():
@@ -343,6 +347,7 @@ def start_process():
                         music_volume += 0.1
 
         pg.mixer.music.set_volume(music_volume)
+        all_sprites.draw(game_screen)
         all_sprites.update()
         pg.display.flip()
         draw_text(game_screen, 'Громкость музыки: ' + str(int(music_volume * 100)) + '%',
@@ -447,8 +452,6 @@ def game_process():
     global music_volume
 
     while running:
-        current_player_x = player.rect.x
-        current_player_y = player.rect.y
         for event in pg.event.get():
             if score <= 0:
                 finish_process()
